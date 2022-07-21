@@ -4,46 +4,37 @@ import com.example.registrationdemo.dto.UserDto;
 import com.example.registrationdemo.dto.mapper.UserMapper;
 import com.example.registrationdemo.entities.User;
 import com.example.registrationdemo.service.UserService;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "users", value = "/users")
-public class UserController extends HttpServlet {
+@Controller
+@RequestMapping("/users")
+public class UserController {
 
-    private UserService service;
-    private UserMapper mapper;
+    private final UserService service;
+    private final UserMapper mapper;
 
-    @Override
-    public void init() {
-        service = new UserService();
-        mapper = new UserMapper();
+    @Autowired
+    public UserController(UserService service, UserMapper mapper) {
+        this.service = service;
+        this.mapper = mapper;
     }
 
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
-    }
-
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @RequestMapping(method = RequestMethod.GET)
+    public String getUsers(ModelMap map)  {
         Collection<User> users = service.getAll();
         List<UserDto> userDtoList = users.stream().map(mapper::toUserDto)
                 .collect(Collectors.toList());
-        request.setAttribute("users", userDtoList);
-        request.getRequestDispatcher("users.jsp").forward(request, response);
+        map.addAttribute("users", userDtoList);
+        return "users";
     }
 
-    @Override
-    public void destroy() {
-        service = null;
-        mapper = null;
-    }
+
 }

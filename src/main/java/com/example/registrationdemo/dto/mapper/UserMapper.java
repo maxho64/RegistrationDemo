@@ -4,13 +4,15 @@ import com.example.registrationdemo.dto.UserDto;
 import com.example.registrationdemo.dto.UserLoginDto;
 import com.example.registrationdemo.dto.UserRegisterDto;
 import com.example.registrationdemo.entities.User;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserMapper {
 
     public User toUser(UserLoginDto dto){
         User user = new User();
-        user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword());
+        user.setEmail(dto.getLoginEmail());
+        user.setPassword(dto.getLoginPassword());
         return user;
     }
 

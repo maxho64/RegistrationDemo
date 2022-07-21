@@ -1,41 +1,48 @@
 package com.example.registrationdemo.controller;
 
+import com.example.registrationdemo.dto.UserLoginDto;
 import com.example.registrationdemo.dto.UserRegisterDto;
 import com.example.registrationdemo.dto.mapper.UserMapper;
 import com.example.registrationdemo.entities.User;
 import com.example.registrationdemo.service.UserService;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.io.IOException;
+import javax.validation.Valid;
 
-@WebServlet(name = "registration", value = "/register")
-public class RegistrationController extends HttpServlet {
+@Controller
+@RequestMapping("/register")
+public class RegistrationController{
 
-    private UserService service;
-    private UserMapper mapper;
+    private final UserService service;
+    private final UserMapper mapper;
 
-    @Override
-    public void init() {
-        service = new UserService();
-        mapper = new UserMapper();
+    @Autowired
+    public RegistrationController(UserService service, UserMapper mapper) {
+        this.service = service;
+        this.mapper = mapper;
     }
 
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User user = mapper.toUser((UserRegisterDto) request.getAttribute("user"));
-        service.save(user);
-        request.setAttribute("color", "green");
-        request.setAttribute("message", "User is registered!");
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+    @RequestMapping(method = RequestMethod.POST)
+    public String registerUser(ModelMap map,
+                               @Valid UserRegisterDto userRegisterDto,
+                               BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            map.addAttribute("color", "red");
+            map.addAttribute("message", "User is not registered!");
+        } else {
+            User user = mapper.toUser(userRegisterDto);
+            service.save(user);
+            map.addAttribute("color", "green");
+            map.addAttribute("message", "User is registered!");
+        }
+        map.addAttribute("userLoginDto", new UserLoginDto());
+        map.addAttribute("userRegisterDto", userRegisterDto);
+        return "index";
     }
 
-    @Override
-    public void destroy() {
-        service = null;
-        mapper = null;
-    }
 }

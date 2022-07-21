@@ -2,6 +2,7 @@
 <%--@elvariable id="color" type="java.lang.String"--%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,7 +48,8 @@
         <!-- Pills content -->
         <div class="tab-content">
             <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
-                <form action="<c:url value = "/login"/>" method="post">
+                <c:url var="login" value = "/login"/>
+                <form:form action="${login}" modelAttribute="userLoginDto" method="post">
                     <div class="text-center mb-3">
                         <p>Sign in with:</p>
                         <button type="button" class="btn btn-link btn-floating mx-1">
@@ -71,16 +73,16 @@
 
                     <!-- Email input -->
                     <div class="form-outline mb-4">
-                        <input type="email" id="loginName" name="email" class="form-control"/>
-                        <label class="form-label" for="loginName">Email or username</label>
+                        <form:input type="email" id="loginName" path="loginEmail" cssClass="form-control"/>
+                        <form:label cssClass="form-label" path="loginEmail">Email or username</form:label>
                     </div>
-
+                    <form:errors path="loginEmail" cssClass="text-danger"/>
                     <!-- Password input -->
                     <div class="form-outline mb-4">
-                        <input type="password" id="loginPassword" name="password" class="form-control"/>
-                        <label class="form-label" for="loginPassword">Password</label>
+                        <form:input type="password" id="loginPassword" path="loginPassword" cssClass="form-control"/>
+                        <form:label cssClass="form-label" path="loginPassword">Password</form:label>
                     </div>
-
+                    <form:errors path="loginPassword" cssClass="text-danger"/>
                     <!-- 2 column grid layout -->
                     <div class="row mb-4">
                         <div class="col-md-6 d-flex justify-content-center">
@@ -104,10 +106,11 @@
                     <div class="text-center">
                         <p>Not a member? <a href="#!">Register</a></p>
                     </div>
-                </form>
+                </form:form>
             </div>
             <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
-                <form action="<c:url value = "/register"/>" method="post">
+                <c:url var="register" value = "/register"/>
+                <form:form action="${register}" modelAttribute="userRegisterDto" method="post">
                     <div class="text-center mb-3">
                         <p>Sign up with:</p>
                         <button type="button" class="btn btn-link btn-floating mx-1">
@@ -131,34 +134,34 @@
 
                     <!-- Name input -->
                     <div class="form-outline mb-4">
-                        <input type="text" id="registerName" name="name"  class="form-control"/>
-                        <label class="form-label" for="registerName">Name</label>
+                        <form:input type="text" id="registerName" path="name"  cssClass="form-control"/>
+                        <form:label cssClass="form-label" path="name">Name</form:label>
                     </div>
-
+                    <form:errors path="name" cssClass="text-danger"/>
                     <!-- Username input -->
                     <div class="form-outline mb-4">
-                        <input type="text" id="registerUsername" name="login" class="form-control"/>
-                        <label class="form-label" for="registerUsername">Username</label>
+                        <form:input type="text" id="registerUsername" path="login" cssClass="form-control"/>
+                        <form:label cssClass="form-label" path="login">Username</form:label>
                     </div>
-
+                    <form:errors path="login" cssClass="text-danger"/>
                     <!-- Email input -->
                     <div class="form-outline mb-4">
-                        <input type="email" id="registerEmail" name="email" class="form-control"/>
-                        <label class="form-label" for="registerEmail">Email</label>
+                        <form:input type="email" id="registerEmail" path="email" cssClass="form-control"/>
+                        <form:label cssClass="form-label" path="email">Email</form:label>
                     </div>
-
+                    <form:errors path="email" cssClass="text-danger"/>
                     <!-- Password input -->
                     <div class="form-outline mb-4">
-                        <input type="password" id="registerPassword" name="password" class="form-control"/>
-                        <label class="form-label" for="registerPassword">Password</label>
+                        <form:input type="password" id="registerPassword" path="password" cssClass="form-control"/>
+                        <form:label cssClass="form-label" path="password">Password</form:label>
                     </div>
-
+                    <form:errors path="password" cssClass="text-danger"/>
                     <!-- Repeat Password input -->
                     <div class="form-outline mb-4">
-                        <input type="password" id="registerRepeatPassword" name="repeatPassword"  class="form-control"/>
-                        <label class="form-label" for="registerRepeatPassword">Repeat password</label>
+                        <form:input type="password" id="registerRepeatPassword" path="repeatPassword"  class="form-control"/>
+                        <form:label class="form-label" path="repeatPassword">Repeat password</form:label>
                     </div>
-
+                    <form:errors path="repeatPassword" cssClass="text-danger"/>
                     <!-- Checkbox -->
                     <div class="form-check d-flex justify-content-center mb-4">
                         <input class="form-check-input me-2" type="checkbox" value="" id="registerCheck" checked
@@ -170,7 +173,7 @@
 
                     <!-- Submit button -->
                     <button type="submit" class="btn btn-primary btn-block mb-3">Sign in</button>
-                </form>
+                </form:form>
             </div>
         </div>
         <strong style="color: ${color}">${message}</strong>

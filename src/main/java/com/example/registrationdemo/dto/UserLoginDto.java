@@ -1,30 +1,30 @@
 package com.example.registrationdemo.dto;
 
 public class UserLoginDto {
-     private String email;
-     private String password;
+     private String loginEmail;
+     private String loginPassword;
 
     public UserLoginDto() {
     }
 
-    public UserLoginDto(String email, String password) {
-        this.email = email;
-        this.password = password;
+    public UserLoginDto(String loginEmail, String loginPassword) {
+        this.loginEmail = loginEmail;
+        this.loginPassword = loginPassword;
     }
 
-    public String getEmail() {
-        return email;
+    public String getLoginEmail() {
+        return loginEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setLoginEmail(String loginEmail) {
+        this.loginEmail = loginEmail;
     }
 
-    public String getPassword() {
-        return password;
+    public String getLoginPassword() {
+        return loginPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setLoginPassword(String loginPassword) {
+        this.loginPassword = loginPassword;
     }
 }

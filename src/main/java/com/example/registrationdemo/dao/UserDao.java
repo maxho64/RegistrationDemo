@@ -1,10 +1,12 @@
 package com.example.registrationdemo.dao;
 
 import com.example.registrationdemo.entities.User;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Repository
 public class UserDao {
 
     private final static Map<Long, User> db = new HashMap<>();

@@ -2,9 +2,11 @@ package com.example.registrationdemo.service;
 
 import com.example.registrationdemo.dao.UserDao;
 import com.example.registrationdemo.entities.User;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+@Service
 public class UserService {
 
     private final UserDao dao;
